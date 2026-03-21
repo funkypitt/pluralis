@@ -1,0 +1,332 @@
+[
+  {
+    "id": "dropsite_news",
+    "name": "Dropsite News",
+    "url": "https://dropsitepress.com",
+    "rss": "https://dropsitepress.com/feed",
+    "category": "investigatif",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "grayzone",
+    "name": "The GrayZone",
+    "url": "https://thegrayzone.com",
+    "rss": "https://thegrayzone.com/feed",
+    "category": "anti-imperialiste",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "epoch_times",
+    "name": "Epoch Times",
+    "url": "https://www.theepochtimes.com",
+    "rss": "https://www.theepochtimes.com/feed",
+    "category": "conservateur",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "aljazeera",
+    "name": "Al Jazeera",
+    "url": "https://www.aljazeera.com",
+    "rss": "https://www.aljazeera.com/xml/rss/all.xml",
+    "category": "geopolitique",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "rt",
+    "name": "RT",
+    "url": "https://www.rt.com",
+    "rss": "https://www.rt.com/rss/news/",
+    "category": "geopolitique",
+    "lang": "EN",
+    "tag": "media-etat",
+    "active": true
+  },
+  {
+    "id": "childrens_health_defense",
+    "name": "Children's Health Defense",
+    "url": "https://childrenshealthdefense.org",
+    "rss": "https://childrenshealthdefense.org/feed",
+    "category": "sante",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "compact_magazine",
+    "name": "Compact Magazine",
+    "url": "https://www.compactmag.com",
+    "rss": "https://www.compactmag.com/rss",
+    "category": "post-liberal",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "unherd",
+    "name": "UnHerd",
+    "url": "https://unherd.com",
+    "rss": "https://unherd.com/feed",
+    "category": "post-liberal",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "american_affairs",
+    "name": "American Affairs",
+    "url": "https://americanaffairsjournal.org",
+    "rss": "https://americanaffairsjournal.org/feed",
+    "category": "post-liberal",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "american_conservative",
+    "name": "The American Conservative",
+    "url": "https://www.theamericanconservative.com",
+    "rss": "https://www.theamericanconservative.com/feed",
+    "category": "post-liberal",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "spiked",
+    "name": "Spiked Online",
+    "url": "https://www.spiked-online.com",
+    "rss": "https://www.spiked-online.com/feed",
+    "category": "post-liberal",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "tablet_magazine",
+    "name": "Tablet Magazine",
+    "url": "https://www.tabletmag.com",
+    "rss": "https://www.tabletmag.com/feed",
+    "category": "post-liberal",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "first_things",
+    "name": "First Things",
+    "url": "https://www.firstthings.com",
+    "rss": "https://www.firstthings.com/rss",
+    "category": "post-liberal",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "the_lamp",
+    "name": "The Lamp",
+    "url": "https://thelampmagazine.com",
+    "rss": "https://thelampmagazine.com/feed",
+    "category": "post-liberal",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "jacobin",
+    "name": "Jacobin",
+    "url": "https://jacobin.com",
+    "rss": "https://jacobin.com/feed",
+    "category": "gauche-socialiste",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "consortium_news",
+    "name": "Consortium News",
+    "url": "https://consortiumnews.com",
+    "rss": "https://consortiumnews.com/feed",
+    "category": "investigatif",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "mintpress",
+    "name": "MintPress News",
+    "url": "https://www.mintpressnews.com",
+    "rss": "https://www.mintpressnews.com/feed",
+    "category": "anti-imperialiste",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "unlimited_hangout",
+    "name": "Unlimited Hangout",
+    "url": "https://unlimitedhangout.com",
+    "rss": "https://unlimitedhangout.com/feed",
+    "category": "investigatif",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "the_lever",
+    "name": "The Lever",
+    "url": "https://www.levernews.com",
+    "rss": "https://www.levernews.com/feed",
+    "category": "investigatif",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "racket_news",
+    "name": "Racket News",
+    "url": "https://racket.news",
+    "rss": "https://racket.news/feed",
+    "category": "investigatif",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "trial_site_news",
+    "name": "Trial Site News",
+    "url": "https://trialsitenews.com",
+    "rss": "https://trialsitenews.com/feed",
+    "category": "sante",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "jonathan_cook",
+    "name": "Jonathan Cook",
+    "url": "https://jonathancook.net",
+    "rss": "https://jonathancook.net/feed",
+    "category": "anti-imperialiste",
+    "lang": "EN",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "global_times",
+    "name": "Global Times",
+    "url": "https://www.globaltimes.cn",
+    "rss": "https://www.globaltimes.cn/rss/outbrain.xml",
+    "category": "chinois",
+    "lang": "EN",
+    "tag": "media-etat",
+    "active": true
+  },
+  {
+    "id": "cgtn",
+    "name": "CGTN",
+    "url": "https://www.cgtn.com",
+    "rss": "https://www.cgtn.com/subscribe/feeds/en/rss.xml",
+    "category": "chinois",
+    "lang": "EN",
+    "tag": "media-etat",
+    "active": true
+  },
+  {
+    "id": "xinhua",
+    "name": "Xinhua",
+    "url": "https://english.news.cn",
+    "rss": "https://english.news.cn/rss/world.xml",
+    "category": "chinois",
+    "lang": "EN",
+    "tag": "media-etat",
+    "active": true
+  },
+  {
+    "id": "scmp",
+    "name": "South China Morning Post",
+    "url": "https://www.scmp.com",
+    "rss": "https://www.scmp.com/rss/91/feed",
+    "category": "chinois",
+    "lang": "EN",
+    "tag": "independant",
+    "active": true
+  },
+  {
+    "id": "antithese",
+    "name": "Antithèse",
+    "url": "https://bonpourlatete.com",
+    "rss": "https://bonpourlatete.com/feed",
+    "category": "francophone",
+    "lang": "FR",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "les_crises",
+    "name": "Les Crises",
+    "url": "https://www.les-crises.fr",
+    "rss": "https://www.les-crises.fr/feed",
+    "category": "francophone",
+    "lang": "FR",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "france_soir",
+    "name": "France-Soir",
+    "url": "https://www.francesoir.fr",
+    "rss": "https://www.francesoir.fr/rss.xml",
+    "category": "francophone",
+    "lang": "FR",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "elucid",
+    "name": "Élucid",
+    "url": "https://elucid.media",
+    "rss": "https://elucid.media/feed",
+    "category": "francophone",
+    "lang": "FR",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "reseau_international",
+    "name": "Réseau International",
+    "url": "https://reseauinternational.net",
+    "rss": "https://reseauinternational.net/feed",
+    "category": "francophone",
+    "lang": "FR",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "investigaction",
+    "name": "Investigaction",
+    "url": "https://investigaction.net",
+    "rss": "https://investigaction.net/feed",
+    "category": "francophone",
+    "lang": "FR",
+    "tag": "",
+    "active": true
+  },
+  {
+    "id": "entelekheia",
+    "name": "Entelekheia",
+    "url": "https://entelekheia.fr",
+    "rss": "https://entelekheia.fr/feed",
+    "category": "francophone",
+    "lang": "FR",
+    "tag": "",
+    "active": true
+  }
+]

@@ -1,0 +1,57 @@
+name: pluralis
+description: Alternative news aggregator — EN & FR RSS feeds
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # RSS/Atom XML parsing
+  xml: ^6.5.0
+
+  # HTTP
+  http: ^1.2.0
+
+  # Local database (bookmarks)
+  sqflite: ^2.3.0
+  path: ^1.9.0
+
+  # Image caching
+  cached_network_image: ^3.3.1
+
+  # Open URLs in browser
+  url_launcher: ^6.2.5
+
+  # Persist sources state
+  shared_preferences: ^2.2.2
+
+  # State management
+  provider: ^6.1.2
+
+  # HTML parsing (strip tags from RSS descriptions)
+  html: ^0.15.4
+
+  # Date formatting
+  intl: ^0.19.0
+
+  # Hashing (article ID from URL)
+  crypto: ^3.0.3
+
+  # Relative time display
+  timeago: ^3.6.1
+
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/sources.json
