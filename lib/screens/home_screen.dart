@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/source_provider.dart';
 import '../providers/feed_provider.dart';
+import '../providers/settings_provider.dart';
 import 'feed_tab.dart';
 import 'bookmarks_tab.dart';
 import 'sources_tab.dart';
@@ -26,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<SettingsProvider>().initFontSize(context);
       final sources = context.read<SourceProvider>().activeSources;
       if (sources.isNotEmpty) {
         context.read<FeedProvider>().refresh(sources);

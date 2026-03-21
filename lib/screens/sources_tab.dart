@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/source.dart';
 import '../providers/source_provider.dart';
+import '../providers/settings_provider.dart';
 import '../widgets/category_badge.dart';
+import '../widgets/font_size_controls.dart';
 
 class SourcesTab extends StatelessWidget {
   const SourcesTab({super.key});
@@ -16,13 +18,13 @@ class SourcesTab extends StatelessWidget {
       appBar: AppBar(
         title: Text('Sources (${sources.length})'),
       ),
-      body: ListView.builder(
+      body: ListView(
         padding: const EdgeInsets.only(bottom: 80),
-        itemCount: sources.length,
-        itemBuilder: (context, index) {
-          final source = sources[index];
-          return _SourceTile(source: source);
-        },
+        children: [
+          _FontSizeSection(),
+          const Divider(),
+          ...sources.map((source) => _SourceTile(source: source)),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddDialog(context),
@@ -130,6 +132,23 @@ class _SourceTile extends StatelessWidget {
               onPressed: () => provider.removeSource(source.id),
             )
           : null,
+    );
+  }
+}
+
+class _FontSizeSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final settings = context.watch<SettingsProvider>();
+    return ListTile(
+      title: const Text('Font size'),
+      subtitle: Text(
+        settings.fontSizeIsAuto
+            ? 'Auto-calculated for this screen'
+            : 'Set manually — long-press size to reset',
+        style: const TextStyle(fontSize: 11),
+      ),
+      trailing: const FontSizeControls(),
     );
   }
 }

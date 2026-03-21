@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'providers/source_provider.dart';
 import 'providers/feed_provider.dart';
 import 'providers/bookmark_provider.dart';
+import 'providers/settings_provider.dart';
 import 'screens/home_screen.dart';
 
 void main() async {
@@ -13,6 +14,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => SourceProvider()..load()),
         ChangeNotifierProvider(create: (_) => FeedProvider()),
         ChangeNotifierProvider(create: (_) => BookmarkProvider()..init()),
+        ChangeNotifierProvider(create: (_) => SettingsProvider()..load()),
       ],
       child: const PluralisApp(),
     ),

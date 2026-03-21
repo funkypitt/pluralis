@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../models/article.dart';
+import '../providers/settings_provider.dart';
 import 'category_badge.dart';
 
 class ArticleCard extends StatelessWidget {
@@ -19,6 +21,8 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fs = context.watch<SettingsProvider>().fontSize;
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: InkWell(
@@ -33,9 +37,9 @@ class ArticleCard extends StatelessWidget {
                 article.title,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 15,
+                  fontSize: fs,
                   height: 1.3,
                 ),
               ),
@@ -49,7 +53,7 @@ class ArticleCard extends StatelessWidget {
                       article.sourceName,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: fs - 3,
                         color: kCategoryColors[article.category] ??
                             const Color(0xFF1A3A5C),
                         fontWeight: FontWeight.w500,
@@ -60,7 +64,7 @@ class ArticleCard extends StatelessWidget {
                     Text(
                       ' · ${DateFormat.MMMd().add_Hm().format(article.publishedAt!)}',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: fs - 3,
                         color: Colors.grey[600],
                       ),
                     ),
@@ -73,7 +77,7 @@ class ArticleCard extends StatelessWidget {
                       color: isBookmarked
                           ? const Color(0xFFE8A020)
                           : Colors.grey,
-                      size: 22,
+                      size: fs + 4,
                     ),
                   ),
                 ],
@@ -86,7 +90,7 @@ class ArticleCard extends StatelessWidget {
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: fs - 2,
                     color: Colors.grey[700],
                     height: 1.4,
                   ),

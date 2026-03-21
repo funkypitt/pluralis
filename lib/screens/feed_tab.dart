@@ -6,6 +6,7 @@ import '../providers/feed_provider.dart';
 import '../providers/source_provider.dart';
 import '../providers/bookmark_provider.dart';
 import '../widgets/article_card.dart';
+import '../widgets/font_size_controls.dart';
 
 class FeedTab extends StatelessWidget {
   const FeedTab({super.key});
@@ -29,6 +30,8 @@ class FeedTab extends StatelessWidget {
           ],
         ),
         actions: [
+          const FontSizeControls(),
+          const SizedBox(width: 4),
           if (feed.lastRefresh != null)
             Center(
               child: Padding(
