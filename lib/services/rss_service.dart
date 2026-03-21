@@ -71,6 +71,12 @@ class RssService {
     final description =
         rawDesc != null ? _stripHtml(rawDesc, maxChars: 500) : null;
 
+    // Capture content:encoded for in-app reader
+    final contentEncoded = _text(item, 'content:encoded');
+    final fullContent = contentEncoded != null
+        ? _stripHtml(contentEncoded, maxChars: 50000)
+        : null;
+
     final imageUrl = _extractImageRss(item) ?? _extractImageFromHtml(rawDesc);
 
     final pubDateStr = _text(item, 'pubDate');
@@ -87,6 +93,7 @@ class RssService {
       sourceId: source.id,
       category: source.category,
       lang: source.lang,
+      fullContent: fullContent,
     );
   }
 

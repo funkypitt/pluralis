@@ -5,6 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsService {
   static const _kFontSize = 'reader_font_size';
   static const _kFontSizeSet = 'reader_font_size_set';
+  static const _kEinkMode = 'eink_mode';
+
+  // ── font size ──────────────────────────────────────────────
 
   Future<double?> getSavedFontSize() async {
     final prefs = await SharedPreferences.getInstance();
@@ -34,5 +37,17 @@ class SettingsService {
 
     final computed = diagPx / 130.0;
     return computed.clamp(13.0, 30.0).roundToDouble();
+  }
+
+  // ── e-ink mode ─────────────────────────────────────────────
+
+  Future<bool> getEinkMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_kEinkMode) ?? false;
+  }
+
+  Future<void> setEinkMode(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_kEinkMode, value);
   }
 }

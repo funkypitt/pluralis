@@ -4,6 +4,7 @@ import '../services/settings_service.dart';
 class SettingsProvider extends ChangeNotifier {
   double fontSize = 17.0;
   bool _fontSizeIsAuto = true;
+  bool einkMode = false;
 
   final SettingsService _service = SettingsService();
 
@@ -15,6 +16,7 @@ class SettingsProvider extends ChangeNotifier {
       fontSize = saved;
       _fontSizeIsAuto = false;
     }
+    einkMode = await _service.getEinkMode();
     notifyListeners();
   }
 
@@ -45,6 +47,12 @@ class SettingsProvider extends ChangeNotifier {
     await _service.resetFontSize();
     _fontSizeIsAuto = true;
     fontSize = adaptive;
+    notifyListeners();
+  }
+
+  Future<void> toggleEinkMode() async {
+    einkMode = !einkMode;
+    await _service.setEinkMode(einkMode);
     notifyListeners();
   }
 }
