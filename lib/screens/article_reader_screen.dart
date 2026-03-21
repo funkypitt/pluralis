@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/article.dart';
@@ -73,9 +74,9 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
     final settings = context.read<SettingsProvider>();
     final screenSize = MediaQuery.of(context).size;
 
-    final style = TextStyle(
+    final style = GoogleFonts.merriweather(
       fontSize: settings.fontSize,
-      height: 1.6,
+      height: 1.7,
       color: Colors.black87,
     );
 
@@ -217,9 +218,9 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
       );
     }
 
-    final style = TextStyle(
+    final style = GoogleFonts.merriweather(
       fontSize: settings.fontSize,
-      height: 1.6,
+      height: 1.7,
       color: Colors.black87,
     );
 
@@ -257,9 +258,9 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
                         const SizedBox(height: 8),
                         Text(
                           _extracted!.title,
-                          style: TextStyle(
+                          style: GoogleFonts.merriweather(
                             fontSize: settings.fontSize + 4,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w700,
                             height: 1.3,
                             color: Colors.black,
                           ),

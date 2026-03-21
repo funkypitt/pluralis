@@ -41,6 +41,9 @@ dependencies:
   # Relative time display
   timeago: ^3.6.1
 
+  # Serif font for e-ink reader
+  google_fonts: ^6.1.0
+
   cupertino_icons: ^1.0.6
 
 dev_dependencies:
