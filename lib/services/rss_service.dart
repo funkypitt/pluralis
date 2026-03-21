@@ -69,7 +69,7 @@ class RssService {
 
     final rawDesc = _text(item, 'description');
     final description =
-        rawDesc != null ? _stripHtml(rawDesc, maxChars: 280) : null;
+        rawDesc != null ? _stripHtml(rawDesc, maxChars: 500) : null;
 
     final imageUrl = _extractImageRss(item) ?? _extractImageFromHtml(rawDesc);
 
@@ -111,7 +111,7 @@ class RssService {
     final rawDesc =
         _text(entry, 'summary') ?? _text(entry, 'content');
     final description =
-        rawDesc != null ? _stripHtml(rawDesc, maxChars: 280) : null;
+        rawDesc != null ? _stripHtml(rawDesc, maxChars: 500) : null;
 
     final imageUrl = _extractImageFromHtml(rawDesc);
 

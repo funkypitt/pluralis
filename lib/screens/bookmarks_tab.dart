@@ -65,20 +65,6 @@ class _BookmarkCard extends StatelessWidget {
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         child: ListTile(
-          leading: bookmark.imageUrl != null
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: Image.network(
-                    bookmark.imageUrl!,
-                    width: 56,
-                    height: 56,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => _InitialBox(
-                      bookmark.sourceName,
-                    ),
-                  ),
-                )
-              : _InitialBox(bookmark.sourceName),
           title: Text(
             bookmark.title,
             maxLines: 2,
@@ -99,32 +85,6 @@ class _BookmarkCard extends StatelessWidget {
             Uri.parse(bookmark.link),
             mode: LaunchMode.externalApplication,
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _InitialBox extends StatelessWidget {
-  final String name;
-  const _InitialBox(this.name);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 56,
-      height: 56,
-      decoration: BoxDecoration(
-        color: const Color(0xFF1A3A5C),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        name.isNotEmpty ? name[0].toUpperCase() : '?',
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
         ),
       ),
     );
