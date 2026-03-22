@@ -10,6 +10,7 @@ const Map<String, Color> kCategoryColors = {
   'conservateur': Color(0xFF885A30),
   'gauche-socialiste': Color(0xFF185FA5),
   'francophone': Color(0xFF993C1D),
+  'substack': Color(0xFFFF6719),
   'custom': Color(0xFF607D8B),
 };
 

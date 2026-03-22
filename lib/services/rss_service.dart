@@ -14,8 +14,12 @@ class RssService {
 
   Future<List<Article>> fetchFeed(Source source) async {
     try {
+      final headers = Map<String, String>.from(_headers);
+      if (source.cookie != null && source.cookie!.isNotEmpty) {
+        headers['Cookie'] = 'substack.sid=${source.cookie}';
+      }
       final response = await http
-          .get(Uri.parse(source.rss), headers: _headers)
+          .get(Uri.parse(source.rss), headers: headers)
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode != 200) return [];

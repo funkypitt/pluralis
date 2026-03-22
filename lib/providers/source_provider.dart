@@ -32,4 +32,13 @@ class SourceProvider extends ChangeNotifier {
     await _service.removeSource(id);
     await load();
   }
+
+  Future<void> updateSourceCookie(String id, String? cookie) async {
+    final i = _sources.indexWhere((s) => s.id == id);
+    if (i >= 0) {
+      _sources[i].cookie = cookie;
+      await _service.saveSources(_sources);
+      notifyListeners();
+    }
+  }
 }

@@ -44,6 +44,9 @@ dependencies:
   # Serif font for e-ink reader
   google_fonts: ^6.1.0
 
+  # WebView for Substack login
+  webview_flutter: ^4.13.1
+
   cupertino_icons: ^1.0.6
 
 dev_dependencies:

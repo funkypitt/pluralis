@@ -8,6 +8,7 @@ class Source {
   final String tag;
   final bool isDefault;
   bool active;
+  String? cookie;
 
   Source({
     required this.id,
@@ -19,6 +20,7 @@ class Source {
     this.tag = '',
     this.isDefault = true,
     this.active = true,
+    this.cookie,
   });
 
   factory Source.fromJson(Map<String, dynamic> json, {bool isDefault = true}) {
@@ -32,6 +34,7 @@ class Source {
       tag: (json['tag'] as String?) ?? '',
       isDefault: isDefault,
       active: (json['active'] as bool?) ?? true,
+      cookie: json['cookie'] as String?,
     );
   }
 
@@ -44,5 +47,6 @@ class Source {
         'lang': lang,
         'tag': tag,
         'active': active,
+        if (cookie != null) 'cookie': cookie,
       };
 }
