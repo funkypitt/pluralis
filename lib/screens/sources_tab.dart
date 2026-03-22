@@ -104,8 +104,13 @@ class SourcesTab extends StatelessWidget {
           FilledButton(
             onPressed: () {
               final name = nameCtrl.text.trim();
-              final rss = rssCtrl.text.trim();
+              var rss = rssCtrl.text.trim();
               if (name.isEmpty || rss.isEmpty) return;
+
+              // Auto-append /feed for Substack URLs
+              if (rss.contains('substack.com') && !rss.endsWith('/feed')) {
+                rss = rss.endsWith('/') ? '${rss}feed' : '$rss/feed';
+              }
 
               final id = name
                   .toLowerCase()
