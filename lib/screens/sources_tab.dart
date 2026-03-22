@@ -6,6 +6,7 @@ import '../providers/feed_provider.dart';
 import '../providers/settings_provider.dart';
 import '../widgets/category_badge.dart';
 import '../widgets/font_size_controls.dart';
+import 'source_feed_screen.dart';
 import 'substack_login_screen.dart';
 
 class SourcesTab extends StatelessWidget {
@@ -258,7 +259,19 @@ class _SourceTile extends StatelessWidget {
 
     return GestureDetector(
       onLongPress: hasCookie ? () => _showCookieOptions(context) : null,
-      child: SwitchListTile(
+      child: ListTile(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SourceFeedScreen(source: source),
+          ),
+        ),
+        leading: !source.isDefault
+            ? IconButton(
+                icon: const Icon(Icons.delete_outline, color: Colors.red),
+                onPressed: () => provider.removeSource(source.id),
+              )
+            : null,
         title: Row(
           children: [
             Expanded(
@@ -286,14 +299,10 @@ class _SourceTile extends StatelessWidget {
             ],
           ],
         ),
-        value: source.active,
-        onChanged: (_) => provider.toggleSource(source.id),
-        secondary: !source.isDefault
-            ? IconButton(
-                icon: const Icon(Icons.delete_outline, color: Colors.red),
-                onPressed: () => provider.removeSource(source.id),
-              )
-            : null,
+        trailing: Switch(
+          value: source.active,
+          onChanged: (_) => provider.toggleSource(source.id),
+        ),
       ),
     );
   }
