@@ -83,10 +83,14 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
       color: Colors.black87,
     );
 
+    // Safety margin: one full line height to prevent last-line clipping
+    final lineHeight = settings.fontSize * 1.7;
+    final safeHeight = _measuredHeight - lineHeight;
+
     // Reserve space for header on first page
     final headerHeight = settings.fontSize * 3 + 60;
-    final firstPageSize = Size(_measuredWidth, _measuredHeight - headerHeight);
-    final normalPageSize = Size(_measuredWidth, _measuredHeight);
+    final firstPageSize = Size(_measuredWidth, safeHeight - headerHeight);
+    final normalPageSize = Size(_measuredWidth, safeHeight);
 
     // Paginate with first page smaller (for title)
     final allPages = _paginator.paginate(
@@ -246,15 +250,17 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
             Expanded(
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  // Measure actual available space and repaginate if needed
-                  if (constraints.maxHeight != _measuredHeight ||
-                      constraints.maxWidth != _measuredWidth) {
+                  final heightChanged =
+                      constraints.maxHeight != _measuredHeight ||
+                      constraints.maxWidth != _measuredWidth;
+                  if (heightChanged) {
                     _measuredHeight = constraints.maxHeight;
                     _measuredWidth = constraints.maxWidth;
-                    if (_extracted != null && _pages.isEmpty) {
-                      WidgetsBinding.instance
-                          .addPostFrameCallback((_) => _repaginate());
-                    }
+                  }
+                  // Repaginate whenever we have content but no pages
+                  if (_extracted != null && _pages.isEmpty && _measuredHeight > 0) {
+                    WidgetsBinding.instance
+                        .addPostFrameCallback((_) => _repaginate());
                   }
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
