@@ -27,6 +27,8 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
   bool _isLoading = true;
   String? _error;
   double _lastFontSize = 0;
+  double _measuredHeight = 0;
+  double _measuredWidth = 0;
 
   @override
   void initState() {
@@ -48,7 +50,9 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
         content: widget.article.fullContent!,
         siteName: widget.article.sourceName,
       );
-      if (mounted) _repaginate();
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
       return;
     }
 
@@ -65,14 +69,13 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
     }
 
     _extracted = extracted;
-    _repaginate();
+    setState(() => _isLoading = false);
   }
 
   void _repaginate() {
-    if (_extracted == null || !mounted) return;
+    if (_extracted == null || !mounted || _measuredHeight <= 0) return;
 
     final settings = context.read<SettingsProvider>();
-    final screenSize = MediaQuery.of(context).size;
 
     final style = GoogleFonts.merriweather(
       fontSize: settings.fontSize,
@@ -82,22 +85,15 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
 
     // Reserve space for header on first page
     final headerHeight = settings.fontSize * 3 + 60;
-    final bottomInset = MediaQuery.of(context).padding.bottom;
-    final chrome = 56 + 48 + bottomInset; // AppBar + page indicator + safe area
-    final firstPageSize = Size(
-      screenSize.width,
-      screenSize.height - headerHeight - chrome,
-    );
-    final normalPageSize = Size(
-      screenSize.width,
-      screenSize.height - chrome,
-    );
+    final firstPageSize = Size(_measuredWidth, _measuredHeight - headerHeight);
+    final normalPageSize = Size(_measuredWidth, _measuredHeight);
 
     // Paginate with first page smaller (for title)
     final allPages = _paginator.paginate(
       text: _extracted!.content,
       pageSize: normalPageSize,
       style: style,
+      padding: const EdgeInsets.symmetric(horizontal: 24),
     );
 
     // Re-paginate first page with reduced height
@@ -106,6 +102,7 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
         text: allPages.first,
         pageSize: firstPageSize,
         style: style,
+        padding: const EdgeInsets.symmetric(horizontal: 24),
       );
       if (firstPages.length > 1) {
         // First page content overflows when title is shown — re-split
@@ -114,12 +111,12 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
           text: fullText,
           pageSize: firstPageSize,
           style: style,
+          padding: const EdgeInsets.symmetric(horizontal: 24),
         );
         setState(() {
           _pages = pages;
           _currentPage = 0;
           _lastFontSize = settings.fontSize;
-          _isLoading = false;
         });
         return;
       }
@@ -129,7 +126,6 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
       _pages = allPages;
       _currentPage = 0;
       _lastFontSize = settings.fontSize;
-      _isLoading = false;
     });
   }
 
@@ -150,7 +146,7 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
     final settings = context.watch<SettingsProvider>();
 
     // Re-paginate if font size changed
-    if (_extracted != null && settings.fontSize != _lastFontSize) {
+    if (_extracted != null && settings.fontSize != _lastFontSize && _measuredHeight > 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _repaginate());
     }
 
@@ -248,37 +244,51 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
         child: Column(
           children: [
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: SingleChildScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Show title only on first page
-                      if (_currentPage == 0 && _extracted != null) ...[
-                        const SizedBox(height: 8),
-                        Text(
-                          _extracted!.title,
-                          style: GoogleFonts.merriweather(
-                            fontSize: settings.fontSize + 4,
-                            fontWeight: FontWeight.w700,
-                            height: 1.3,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Divider(color: Colors.grey[300]),
-                        const SizedBox(height: 12),
-                      ],
-                      if (_pages.isNotEmpty)
-                        Text(
-                          _pages[_currentPage],
-                          style: style,
-                        ),
-                    ],
-                  ),
-                ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  // Measure actual available space and repaginate if needed
+                  if (constraints.maxHeight != _measuredHeight ||
+                      constraints.maxWidth != _measuredWidth) {
+                    _measuredHeight = constraints.maxHeight;
+                    _measuredWidth = constraints.maxWidth;
+                    if (_extracted != null && _pages.isEmpty) {
+                      WidgetsBinding.instance
+                          .addPostFrameCallback((_) => _repaginate());
+                    }
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: SingleChildScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Show title only on first page
+                          if (_currentPage == 0 && _extracted != null) ...[
+                            const SizedBox(height: 8),
+                            Text(
+                              _extracted!.title,
+                              style: GoogleFonts.merriweather(
+                                fontSize: settings.fontSize + 4,
+                                fontWeight: FontWeight.w700,
+                                height: 1.3,
+                                color: Colors.black,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Divider(color: Colors.grey[300]),
+                            const SizedBox(height: 12),
+                          ],
+                          if (_pages.isNotEmpty)
+                            Text(
+                              _pages[_currentPage],
+                              style: style,
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             // Page indicator
