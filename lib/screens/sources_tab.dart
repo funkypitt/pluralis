@@ -293,10 +293,6 @@ class _SourceTile extends StatelessWidget {
             CategoryBadge(category: source.category),
             const SizedBox(width: 4),
             _LangChip(lang: source.lang),
-            if (source.tag.isNotEmpty) ...[
-              const SizedBox(width: 4),
-              _TagChip(tag: source.tag),
-            ],
           ],
         ),
         trailing: Switch(
@@ -366,22 +362,3 @@ class _LangChip extends StatelessWidget {
   }
 }
 
-class _TagChip extends StatelessWidget {
-  final String tag;
-  const _TagChip({required this.tag});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: Colors.orange.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        tag,
-        style: const TextStyle(fontSize: 10, color: Colors.orange),
-      ),
-    );
-  }
-}
