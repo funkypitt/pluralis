@@ -139,13 +139,27 @@ class FeedTab extends StatelessWidget {
     }
 
     if (feed.articles.isEmpty) {
-      return Center(
-        child: Text(
-          'Enable sources in the Sources tab',
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge
-              ?.copyWith(color: Colors.grey),
+      return RefreshIndicator(
+        onRefresh: () async {
+          final sources = context.read<SourceProvider>().activeSources;
+          await feed.refresh(sources);
+        },
+        child: ListView(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: Center(
+                child: Text(
+                  'Pull down to refresh\nor enable sources in the Sources tab',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(color: Colors.grey),
+                ),
+              ),
+            ),
+          ],
         ),
       );
     }

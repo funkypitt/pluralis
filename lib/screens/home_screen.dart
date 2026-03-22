@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  bool _initialRefreshDone = false;
 
   final _tabs = const [
     FeedTab(),
@@ -28,11 +29,19 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<SettingsProvider>().initFontSize(context);
-      final sources = context.read<SourceProvider>().activeSources;
-      if (sources.isNotEmpty) {
-        context.read<FeedProvider>().refresh(sources);
-      }
+      _tryInitialRefresh();
+      // Listen for sources to finish loading
+      context.read<SourceProvider>().addListener(_tryInitialRefresh);
     });
+  }
+
+  void _tryInitialRefresh() {
+    if (_initialRefreshDone) return;
+    final sources = context.read<SourceProvider>().activeSources;
+    if (sources.isNotEmpty) {
+      _initialRefreshDone = true;
+      context.read<FeedProvider>().refresh(sources);
+    }
   }
 
   @override
