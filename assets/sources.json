@@ -3,7 +3,7 @@
     "id": "dropsite_news",
     "name": "Dropsite News",
     "url": "https://dropsitepress.com",
-    "rss": "https://dropsitepress.com/feed",
+    "rss": "https://www.dropsitenews.com/feed",
     "category": "investigatif",
     "lang": "EN",
     "tag": "",
@@ -23,7 +23,7 @@
     "id": "epoch_times",
     "name": "Epoch Times",
     "url": "https://www.theepochtimes.com",
-    "rss": "https://www.theepochtimes.com/feed",
+    "rss": "https://feed.theepochtimes.com/world/feed",
     "category": "conservateur",
     "lang": "EN",
     "tag": "",
@@ -117,7 +117,7 @@
     "category": "post-liberal",
     "lang": "EN",
     "tag": "",
-    "active": true
+    "active": false
   },
   {
     "id": "first_things",
@@ -133,7 +133,7 @@
     "id": "the_lamp",
     "name": "The Lamp",
     "url": "https://thelampmagazine.com",
-    "rss": "https://thelampmagazine.com/feed",
+    "rss": "https://thelampmagazine.substack.com/feed",
     "category": "post-liberal",
     "lang": "EN",
     "tag": "",
@@ -213,7 +213,7 @@
     "id": "jonathan_cook",
     "name": "Jonathan Cook",
     "url": "https://jonathancook.net",
-    "rss": "https://jonathancook.net/feed",
+    "rss": "https://jonathancook.substack.com/feed",
     "category": "anti-imperialiste",
     "lang": "EN",
     "tag": "",
@@ -233,7 +233,7 @@
     "id": "cgtn",
     "name": "CGTN",
     "url": "https://www.cgtn.com",
-    "rss": "https://www.cgtn.com/subscribe/feeds/en/rss.xml",
+    "rss": "https://www.cgtn.com/subscribe/rss/section/world.xml",
     "category": "chinois",
     "lang": "EN",
     "tag": "media-etat",
@@ -247,7 +247,7 @@
     "category": "chinois",
     "lang": "EN",
     "tag": "media-etat",
-    "active": true
+    "active": false
   },
   {
     "id": "scmp",
@@ -307,7 +307,7 @@
     "category": "francophone",
     "lang": "FR",
     "tag": "",
-    "active": true
+    "active": false
   },
   {
     "id": "investigaction",
@@ -327,6 +327,6 @@
     "category": "francophone",
     "lang": "FR",
     "tag": "",
-    "active": true
+    "active": false
   }
 ]
