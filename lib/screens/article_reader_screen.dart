@@ -82,13 +82,15 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
 
     // Reserve space for header on first page
     final headerHeight = settings.fontSize * 3 + 60;
+    final bottomInset = MediaQuery.of(context).padding.bottom;
+    final chrome = 56 + 48 + bottomInset; // AppBar + page indicator + safe area
     final firstPageSize = Size(
       screenSize.width,
-      screenSize.height - headerHeight - 100, // AppBar + bottom bar
+      screenSize.height - headerHeight - chrome,
     );
     final normalPageSize = Size(
       screenSize.width,
-      screenSize.height - 100,
+      screenSize.height - chrome,
     );
 
     // Paginate with first page smaller (for title)
