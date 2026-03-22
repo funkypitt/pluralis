@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/source.dart';
 import '../providers/source_provider.dart';
+import '../providers/feed_provider.dart';
 import '../providers/settings_provider.dart';
 import '../widgets/category_badge.dart';
 import '../widgets/font_size_controls.dart';
@@ -104,6 +105,10 @@ class _SourceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.read<SourceProvider>();
+    final feedActiveIds = context.watch<FeedProvider>().activeSourceIds;
+    final isFeedActive = feedActiveIds.contains(source.id);
+    // Only show inactive if the source is toggled on but returned no articles
+    final showInactive = source.active && feedActiveIds.isNotEmpty && !isFeedActive;
 
     return SwitchListTile(
       title: Row(
@@ -114,7 +119,12 @@ class _SourceTile extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 4),
+          if (showInactive)
+            const _StatusChip(label: 'inactive', color: Colors.red)
+          else if (source.active && feedActiveIds.isNotEmpty)
+            const _StatusChip(label: 'active', color: Colors.green),
+          const SizedBox(width: 4),
           CategoryBadge(category: source.category),
           const SizedBox(width: 4),
           _LangChip(lang: source.lang),
@@ -132,6 +142,27 @@ class _SourceTile extends StatelessWidget {
               onPressed: () => provider.removeSource(source.id),
             )
           : null,
+    );
+  }
+}
+
+class _StatusChip extends StatelessWidget {
+  final String label;
+  final Color color;
+  const _StatusChip({required this.label, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(fontSize: 9, color: color, fontWeight: FontWeight.w600),
+      ),
     );
   }
 }

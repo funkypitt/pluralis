@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
 import '../providers/feed_provider.dart';
 import '../providers/source_provider.dart';
@@ -46,16 +45,20 @@ class FeedTab extends StatelessWidget {
           ),
           const FontSizeControls(),
           const SizedBox(width: 4),
-          if (feed.lastRefresh != null)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 4),
-                child: Text(
-                  timeago.format(feed.lastRefresh!),
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ),
+          // View mode toggle (replaces "n minutes ago")
+          TextButton.icon(
+            onPressed: () => feed.toggleViewMode(),
+            icon: Icon(
+              feed.viewMode == FeedViewMode.latest
+                  ? Icons.schedule
+                  : Icons.view_list,
+              size: 18,
             ),
+            label: Text(
+              feed.viewMode == FeedViewMode.latest ? 'Latest' : 'By source',
+              style: const TextStyle(fontSize: 12),
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
