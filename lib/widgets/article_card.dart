@@ -46,8 +46,6 @@ class ArticleCard extends StatelessWidget {
               const SizedBox(height: 6),
               Row(
                 children: [
-                  CategoryBadge(category: article.category),
-                  const SizedBox(width: 6),
                   Flexible(
                     child: Text(
                       article.sourceName,

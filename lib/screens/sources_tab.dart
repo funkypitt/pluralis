@@ -4,7 +4,6 @@ import '../models/source.dart';
 import '../providers/source_provider.dart';
 import '../providers/feed_provider.dart';
 import '../providers/settings_provider.dart';
-import '../widgets/category_badge.dart';
 import '../widgets/font_size_controls.dart';
 import 'source_feed_screen.dart';
 import 'substack_login_screen.dart';
@@ -294,8 +293,6 @@ class _SourceTile extends StatelessWidget {
               const _StatusChip(label: 'inactive', color: Colors.red)
             else if (source.active && feedActiveIds.isNotEmpty)
               const _StatusChip(label: 'active', color: Colors.green),
-            const SizedBox(width: 4),
-            CategoryBadge(category: source.category),
             const SizedBox(width: 4),
             _LangChip(lang: source.lang),
           ],
