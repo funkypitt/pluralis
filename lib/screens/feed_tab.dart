@@ -72,7 +72,7 @@ class FeedTab extends StatelessWidget {
                 showAboutDialog(
                   context: context,
                   applicationName: 'Pluralis',
-                  applicationVersion: '1.1.0',
+                  applicationVersion: '1.2.0',
                   children: [
                     const Text(
                       'Alternative news aggregator\nEN & FR RSS feeds',
