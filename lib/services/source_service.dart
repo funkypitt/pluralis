@@ -6,16 +6,22 @@ import '../models/source.dart';
 class SourceService {
   static const _sourcesKey = 'sources_state';
   static const _customSourcesKey = 'custom_sources';
+  static const _removedDefaultsKey = 'removed_default_sources';
 
   Future<List<Source>> loadSources() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // Load defaults from asset
+    // Load removed default IDs
+    final removedDefaults =
+        (prefs.getStringList(_removedDefaultsKey) ?? []).toSet();
+
+    // Load defaults from asset, filtering out removed ones
     final jsonStr = await rootBundle.loadString('assets/sources.json');
     final List<dynamic> jsonList = json.decode(jsonStr) as List<dynamic>;
     final defaults = jsonList
         .map((j) =>
             Source.fromJson(j as Map<String, dynamic>, isDefault: true))
+        .where((s) => !removedDefaults.contains(s.id))
         .toList();
 
     // Load saved active/inactive state
@@ -66,8 +72,26 @@ class SourceService {
   }
 
   Future<void> removeSource(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Check if this is a default source by looking at the asset
+    final jsonStr = await rootBundle.loadString('assets/sources.json');
+    final List<dynamic> jsonList = json.decode(jsonStr) as List<dynamic>;
+    final isDefault =
+        jsonList.any((j) => (j as Map<String, dynamic>)['id'] == id);
+
+    if (isDefault) {
+      // Track removed default source
+      final removed = prefs.getStringList(_removedDefaultsKey) ?? [];
+      if (!removed.contains(id)) {
+        removed.add(id);
+        await prefs.setStringList(_removedDefaultsKey, removed);
+      }
+    }
+
+    // Reload (now filtered) and save
     final sources = await loadSources();
-    sources.removeWhere((s) => s.id == id && !s.isDefault);
+    sources.removeWhere((s) => s.id == id);
     await saveSources(sources);
   }
 }

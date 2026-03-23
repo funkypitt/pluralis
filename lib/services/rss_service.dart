@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:html/parser.dart' as htmlparser;
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
@@ -10,6 +11,8 @@ class RssService {
   static const _headers = {
     'User-Agent': 'Mozilla/5.0 (compatible; Pluralis/1.0; RSS Reader)',
     'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+    'Cache-Control': 'no-cache, no-store',
+    'Pragma': 'no-cache',
   };
 
   Future<List<Article>> fetchFeed(Source source) async {
@@ -34,7 +37,8 @@ class RssService {
       } else {
         return _parseRss(root, source);
       }
-    } catch (_) {
+    } catch (e) {
+      debugPrint('RSS fetch error for ${source.name}: $e');
       return [];
     }
   }

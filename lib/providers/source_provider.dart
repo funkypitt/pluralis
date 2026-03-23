@@ -41,4 +41,15 @@ class SourceProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  /// Add multiple sources at once (used by OPML/CSV import)
+  Future<void> addSources(List<Source> newSources) async {
+    final existingIds = _sources.map((s) => s.id).toSet();
+    final toAdd = newSources.where((s) => !existingIds.contains(s.id)).toList();
+    if (toAdd.isEmpty) return;
+    for (final s in toAdd) {
+      await _service.addCustomSource(s);
+    }
+    await load();
+  }
 }
