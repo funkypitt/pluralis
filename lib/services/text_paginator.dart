@@ -1,103 +1,74 @@
 import 'package:flutter/painting.dart';
 
 class TextPaginator {
-  /// Splits [text] into pages that fit within [pageSize] using [style].
-  /// Returns a list of strings, one per page.
+  /// Splits [text] into pages that fit within the given width and heights.
+  /// [firstPageHeight] is the available height for the first page (may be
+  /// reduced to make room for the article title).
+  /// [pageHeight] is the available height for all subsequent pages.
   List<String> paginate({
     required String text,
-    required Size pageSize,
+    required double width,
+    required double firstPageHeight,
+    required double pageHeight,
     required TextStyle style,
-    EdgeInsets padding = const EdgeInsets.all(24),
   }) {
     if (text.trim().isEmpty) return [''];
 
-    final availableWidth = pageSize.width - padding.left - padding.right;
-    final availableHeight = pageSize.height - padding.top - padding.bottom;
-
     final pages = <String>[];
-    final paragraphs = text.split('\n');
-    var currentPageLines = <String>[];
-    var currentHeight = 0.0;
+    var remaining = text;
+    var isFirstPage = true;
 
-    for (final paragraph in paragraphs) {
-      if (paragraph.trim().isEmpty) {
-        // Empty line = paragraph break
-        final lineHeight = _measureHeight('', style, availableWidth);
-        if (currentHeight + lineHeight > availableHeight) {
-          // Start new page
-          pages.add(currentPageLines.join('\n'));
-          currentPageLines = [];
-          currentHeight = 0;
-        }
-        currentPageLines.add('');
-        currentHeight += lineHeight;
-        continue;
+    while (remaining.isNotEmpty) {
+      final height = isFirstPage ? firstPageHeight : pageHeight;
+      isFirstPage = false;
+
+      final tp = TextPainter(
+        text: TextSpan(text: remaining, style: style),
+        textDirection: TextDirection.ltr,
+      );
+      tp.layout(maxWidth: width);
+
+      if (tp.height <= height) {
+        // Everything remaining fits on this page
+        pages.add(remaining);
+        tp.dispose();
+        break;
       }
 
-      // Measure the paragraph as a whole block
-      final paraHeight = _measureHeight(paragraph, style, availableWidth);
-
-      if (currentHeight + paraHeight <= availableHeight) {
-        // Fits on current page
-        currentPageLines.add(paragraph);
-        currentHeight += paraHeight;
-      } else if (paraHeight > availableHeight) {
-        // Paragraph too long for a single page — split by words
-        final words = paragraph.split(RegExp(r'\s+'));
-        var chunk = StringBuffer();
-
-        for (final word in words) {
-          final test =
-              chunk.isEmpty ? word : '${chunk.toString()} $word';
-          final testHeight = _measureHeight(test, style, availableWidth);
-          final totalHeight = currentHeight + testHeight;
-
-          if (totalHeight > availableHeight) {
-            if (chunk.isNotEmpty) {
-              currentPageLines.add(chunk.toString());
-            }
-            if (currentPageLines.isNotEmpty) {
-              pages.add(currentPageLines.join('\n'));
-            }
-            currentPageLines = [];
-            currentHeight = 0;
-            chunk = StringBuffer(word);
-          } else {
-            chunk = StringBuffer(test);
-          }
-        }
-        if (chunk.isNotEmpty) {
-          final remaining = chunk.toString();
-          currentPageLines.add(remaining);
-          currentHeight += _measureHeight(remaining, style, availableWidth);
-        }
-      } else {
-        // Doesn't fit — start new page
-        if (currentPageLines.isNotEmpty) {
-          pages.add(currentPageLines.join('\n'));
-        }
-        currentPageLines = [paragraph];
-        currentHeight = paraHeight;
+      // Count exactly which lines fit using real line metrics
+      final metrics = tp.computeLineMetrics();
+      double usedHeight = 0;
+      int fittingLines = 0;
+      for (final m in metrics) {
+        if (usedHeight + m.height > height) break;
+        usedHeight += m.height;
+        fittingLines++;
       }
-    }
 
-    // Last page
-    if (currentPageLines.isNotEmpty) {
-      pages.add(currentPageLines.join('\n'));
+      if (fittingLines == 0) {
+        // Can't fit even one line — force it to avoid infinite loop
+        pages.add(remaining);
+        tp.dispose();
+        break;
+      }
+
+      // Find the character offset at the start of the first non-fitting line.
+      // Position (x=0, y=usedHeight) is exactly at the top of that line.
+      final breakPos = tp.getPositionForOffset(Offset(0, usedHeight));
+      var breakOffset = breakPos.offset;
+
+      // Safety: ensure we actually advance
+      if (breakOffset <= 0) {
+        pages.add(remaining);
+        tp.dispose();
+        break;
+      }
+
+      pages.add(remaining.substring(0, breakOffset).trimRight());
+      remaining = remaining.substring(breakOffset).trimLeft();
+      tp.dispose();
     }
 
     return pages.isEmpty ? [''] : pages;
-  }
-
-  double _measureHeight(String text, TextStyle style, double maxWidth) {
-    final tp = TextPainter(
-      text: TextSpan(text: text, style: style),
-      textDirection: TextDirection.ltr,
-      maxLines: null,
-    );
-    tp.layout(maxWidth: maxWidth);
-    final height = tp.height;
-    tp.dispose();
-    return height;
   }
 }

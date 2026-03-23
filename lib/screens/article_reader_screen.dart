@@ -83,51 +83,38 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
       color: Colors.black87,
     );
 
-    // Safety margin: one full line height to prevent last-line clipping
-    final lineHeight = settings.fontSize * 1.7;
-    final safeHeight = _measuredHeight - lineHeight;
+    final contentWidth = _measuredWidth - 48; // 24px padding each side
 
-    // Reserve space for header on first page
-    final headerHeight = settings.fontSize * 3 + 60;
-    final firstPageSize = Size(_measuredWidth, safeHeight - headerHeight);
-    final normalPageSize = Size(_measuredWidth, safeHeight);
+    // Measure exact header height for first page
+    final titleStyle = GoogleFonts.merriweather(
+      fontSize: settings.fontSize + 4,
+      fontWeight: FontWeight.w700,
+      height: 1.3,
+      color: Colors.black,
+    );
+    final titleTp = TextPainter(
+      text: TextSpan(text: _extracted!.title, style: titleStyle),
+      textDirection: TextDirection.ltr,
+    );
+    titleTp.layout(maxWidth: contentWidth);
+    final titleHeight = titleTp.height;
+    titleTp.dispose();
 
-    // Paginate with first page smaller (for title)
-    final allPages = _paginator.paginate(
+    // Header: SizedBox(8) + title + SizedBox(16) + Divider(~1) + SizedBox(12)
+    final headerHeight = 8 + titleHeight + 16 + 1 + 12;
+    final firstPageHeight = _measuredHeight - headerHeight;
+    final normalPageHeight = _measuredHeight;
+
+    final pages = _paginator.paginate(
       text: _extracted!.content,
-      pageSize: normalPageSize,
+      width: contentWidth,
+      firstPageHeight: firstPageHeight,
+      pageHeight: normalPageHeight,
       style: style,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
     );
 
-    // Re-paginate first page with reduced height
-    if (allPages.isNotEmpty) {
-      final firstPages = _paginator.paginate(
-        text: allPages.first,
-        pageSize: firstPageSize,
-        style: style,
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-      );
-      if (firstPages.length > 1) {
-        // First page content overflows when title is shown — re-split
-        final fullText = _extracted!.content;
-        final pages = _paginator.paginate(
-          text: fullText,
-          pageSize: firstPageSize,
-          style: style,
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-        );
-        setState(() {
-          _pages = pages;
-          _currentPage = 0;
-          _lastFontSize = settings.fontSize;
-        });
-        return;
-      }
-    }
-
     setState(() {
-      _pages = allPages;
+      _pages = pages;
       _currentPage = 0;
       _lastFontSize = settings.fontSize;
     });
@@ -264,34 +251,34 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
                   }
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: SingleChildScrollView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Show title only on first page
-                          if (_currentPage == 0 && _extracted != null) ...[
-                            const SizedBox(height: 8),
-                            Text(
-                              _extracted!.title,
-                              style: GoogleFonts.merriweather(
-                                fontSize: settings.fontSize + 4,
-                                fontWeight: FontWeight.w700,
-                                height: 1.3,
-                                color: Colors.black,
-                              ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Show title only on first page
+                        if (_currentPage == 0 && _extracted != null) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            _extracted!.title,
+                            style: GoogleFonts.merriweather(
+                              fontSize: settings.fontSize + 4,
+                              fontWeight: FontWeight.w700,
+                              height: 1.3,
+                              color: Colors.black,
                             ),
-                            const SizedBox(height: 16),
-                            Divider(color: Colors.grey[300]),
-                            const SizedBox(height: 12),
-                          ],
-                          if (_pages.isNotEmpty)
-                            Text(
+                          ),
+                          const SizedBox(height: 16),
+                          Divider(color: Colors.grey[300]),
+                          const SizedBox(height: 12),
+                        ],
+                        if (_pages.isNotEmpty)
+                          Expanded(
+                            child: Text(
                               _pages[_currentPage],
                               style: style,
+                              overflow: TextOverflow.clip,
                             ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
                   );
                 },
