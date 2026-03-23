@@ -1,66 +1,42 @@
 # Pluralis
 
-**Alternative news aggregator for Android** — aggregates RSS feeds from 33 independent and alternative media sources in English and French.
+**E-ink friendly RSS/Atom reader for Android** — a lightweight, local-first feed reader with a paginated reading mode designed for e-ink displays.
 
 ## Features
 
-- 📰 **Home feed** — latest headlines with lead image and excerpt, sorted by date, auto-refreshed on open
-- ⭐ **Bookmarks** — save articles, open in browser, auto-deleted after 90 days
-- ⚙️ **Sources** — toggle sources on/off, add custom RSS feeds
-
-## Default sources (33)
-
-26 English + 7 French sources across categories: investigative, geopolitical, post-liberal, health, anti-imperialist, Chinese perspective, French-language.
-
-## Tech stack
-
-- Flutter (Android target, min SDK 21)
-- `webfeed` — RSS/Atom parsing
-- `http` — network requests
-- `sqflite` — local bookmarks database
-- `cached_network_image` — image caching
-- `url_launcher` — open articles in browser
-- `shared_preferences` — active sources persistence
-- `provider` — state management
-
-## GitHub
-
-https://github.com/YOUR_USERNAME/pluralis
+- **E-ink reading mode** — paginated article reader with adaptive font sizing, serif typography, tap zones for page turns, and high-contrast layout optimized for e-paper displays
+- **RSS/Atom aggregator** — subscribe to any RSS or Atom feed, sorted chronologically with source spreading
+- **Bookmarks** — save articles for later, auto-cleaned after 90 days
+- **OPML import/export** — import your existing feed subscriptions, export to share
+- **Substack support** — paid Substack content via cookie authentication, CSV import/export
+- **Fully local** — no accounts, no tracking, no server; all data stays on your device
 
 ## Getting started
 
+The app ships with a single demo feed (Wikipedia Featured Articles). Add your own sources:
+
+- **Add RSS** — tap "Add source" and enter any RSS/Atom URL
+- **Import OPML** — tap the import/export icon in the Sources tab to import an OPML file from another reader
+- **Import Substacks** — import paid Substack subscriptions with cookies via CSV
+
+## Tech stack
+
+- Flutter (Android, min SDK 21)
+- Provider — state management
+- sqflite — local bookmarks database
+- xml — RSS/Atom parsing
+- shared_preferences — source state persistence
+- google_fonts — Merriweather for the e-ink reader
+
+## Build
+
 ```bash
-git clone https://github.com/YOUR_USERNAME/pluralis.git
+git clone https://github.com/funkypitt/pluralis.git
 cd pluralis
 flutter pub get
-flutter run
+flutter build apk --release
 ```
 
-## Project structure
+## License
 
-```
-lib/
-  main.dart               # App entry point, MaterialApp, BottomNavigationBar
-  models/
-    article.dart          # Article data model
-    source.dart           # Source data model
-    bookmark.dart         # Bookmark data model
-  services/
-    rss_service.dart      # Fetch + parse RSS feeds
-    bookmark_service.dart # sqflite CRUD
-    source_service.dart   # Load/save sources state
-  providers/
-    feed_provider.dart    # Feed state (articles, loading, error)
-    bookmark_provider.dart
-    source_provider.dart
-  screens/
-    home_screen.dart      # BottomNavigationBar container
-    feed_tab.dart         # Article list
-    bookmarks_tab.dart    # Saved articles
-    sources_tab.dart      # Manage sources
-  widgets/
-    article_card.dart     # Headline + image + excerpt + star button
-    source_tile.dart      # Source row with toggle
-assets/
-  sources.json            # Default sources with RSS URLs
-```
+[GPL-3.0](LICENSE)

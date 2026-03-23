@@ -75,7 +75,7 @@ class FeedTab extends StatelessWidget {
                   applicationVersion: '1.3.0',
                   children: [
                     const Text(
-                      'Alternative news aggregator\nEN & FR RSS feeds',
+                      'E-ink friendly RSS reader\nAdd feeds via URL or OPML import',
                     ),
                   ],
                 );
