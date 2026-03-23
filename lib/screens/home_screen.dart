@@ -14,8 +14,9 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   int _currentIndex = 0;
+  DateTime? _lastRefresh;
 
   final _tabs = const [
     FeedTab(),
@@ -26,10 +27,38 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<SettingsProvider>().initFontSize(context);
       _doInitialRefresh();
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _refreshIfStale();
+    }
+  }
+
+  /// Refresh feeds if last refresh was more than 5 minutes ago
+  void _refreshIfStale() {
+    if (!mounted) return;
+    if (_lastRefresh != null &&
+        DateTime.now().difference(_lastRefresh!).inMinutes < 5) {
+      return;
+    }
+    final sources = context.read<SourceProvider>().activeSources;
+    if (sources.isNotEmpty) {
+      _lastRefresh = DateTime.now();
+      context.read<FeedProvider>().refresh(sources);
+    }
   }
 
   void _doInitialRefresh() {
@@ -38,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // If sources are already loaded, refresh immediately
     final sources = sourceProvider.activeSources;
     if (sources.isNotEmpty) {
+      _lastRefresh = DateTime.now();
       context.read<FeedProvider>().refresh(sources);
       return;
     }
@@ -52,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final loaded = sourceProvider.activeSources;
       if (loaded.isNotEmpty) {
         sourceProvider.removeListener(listener);
+        _lastRefresh = DateTime.now();
         context.read<FeedProvider>().refresh(loaded);
       }
     };
