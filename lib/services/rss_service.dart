@@ -217,23 +217,29 @@ class RssService {
 
   DateTime? _parseRfc822(String s) {
     // RFC 822: "Mon, 21 Mar 2026 14:30:00 +0000"
+    // Also: "21 Mar 2026 14:30:00 +0000" (without day name)
     final parts = s.replaceAll(',', '').trim().split(RegExp(r'\s+'));
     if (parts.length < 5) return null;
 
+    // Detect whether first token is a day name or a day number
     int offset = 0;
-    // Skip day name if present
-    if (_months.containsKey(parts[1].substring(0, 3).toLowerCase())) {
+    if (int.tryParse(parts[0]) != null) {
+      // Starts with day number (no day name prefix)
       offset = 0;
     } else {
+      // Starts with day name like "Mon" — skip it
       offset = 1;
     }
 
     final day = int.tryParse(parts[offset]);
-    final month = _months[parts[offset + 1].substring(0, 3).toLowerCase()];
+    final monthStr = parts[offset + 1];
+    final month = monthStr.length >= 3
+        ? _months[monthStr.substring(0, 3).toLowerCase()]
+        : null;
     final year = int.tryParse(parts[offset + 2]);
     final timeParts = parts[offset + 3].split(':');
 
-    if (day == null || month == null || year == null || timeParts.length < 3) {
+    if (day == null || month == null || year == null || timeParts.length < 2) {
       return null;
     }
 
@@ -243,7 +249,7 @@ class RssService {
       day,
       int.tryParse(timeParts[0]) ?? 0,
       int.tryParse(timeParts[1]) ?? 0,
-      int.tryParse(timeParts[2]) ?? 0,
+      timeParts.length >= 3 ? (int.tryParse(timeParts[2]) ?? 0) : 0,
     );
   }
 }
