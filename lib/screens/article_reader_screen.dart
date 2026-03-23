@@ -102,8 +102,10 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
 
     // Header: SizedBox(8) + title + SizedBox(16) + Divider(~1) + SizedBox(12)
     final headerHeight = 8 + titleHeight + 16 + 1 + 12;
-    final firstPageHeight = _measuredHeight - headerHeight;
-    final normalPageHeight = _measuredHeight;
+    // Subtract 16px bottom padding from available height
+    final availableHeight = _measuredHeight - 16;
+    final firstPageHeight = availableHeight - headerHeight;
+    final normalPageHeight = availableHeight;
 
     final pages = _paginator.paginate(
       text: _extracted!.content,
@@ -250,7 +252,7 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
                         .addPostFrameCallback((_) => _repaginate());
                   }
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
