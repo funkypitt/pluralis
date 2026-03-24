@@ -100,10 +100,10 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
     final titleHeight = titleTp.height;
     titleTp.dispose();
 
-    // Header: SizedBox(8) + title + SizedBox(16) + Divider(~1) + SizedBox(12)
-    final headerHeight = 8 + titleHeight + 16 + 1 + 12;
-    // Subtract 16px bottom padding from available height
-    final availableHeight = _measuredHeight - 16;
+    // Header: SizedBox(8) + title + SizedBox(16) + Divider(height=16) + SizedBox(12)
+    final headerHeight = 8 + titleHeight + 16 + 16 + 12;
+    // Subtract bottom padding (16) + safety margin (8) from available height
+    final availableHeight = _measuredHeight - 24;
     final firstPageHeight = availableHeight - headerHeight;
     final normalPageHeight = availableHeight;
 
