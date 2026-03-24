@@ -72,7 +72,7 @@ class FeedTab extends StatelessWidget {
                 showAboutDialog(
                   context: context,
                   applicationName: 'Pluralis',
-                  applicationVersion: '1.3.0',
+                  applicationVersion: '1.4.0',
                   children: [
                     const Text(
                       'E-ink friendly RSS reader\nAdd feeds via URL or OPML import',
