@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/article.dart';
 import '../models/source.dart';
 import '../services/rss_service.dart';
@@ -59,11 +64,33 @@ class FeedProvider extends ChangeNotifier {
       _perSourceArticles = _buildPerSourceView(results);
 
       _lastRefresh = DateTime.now();
+      _updateHomeWidget(_chronoArticles);
     } catch (e) {
       _error = e.toString();
     } finally {
       _isLoading = false;
       notifyListeners();
+    }
+  }
+
+  static const _widgetChannel =
+      MethodChannel('com.pluralis.pluralis/widget');
+
+  /// Push latest articles to the Android home screen widget.
+  Future<void> _updateHomeWidget(List<Article> articles) async {
+    try {
+      final top = articles.take(10).map((a) => {
+            'title': a.title,
+            'description': a.description ?? '',
+            'link': a.link,
+            'sourceName': a.sourceName,
+          }).toList();
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('widget_articles', jsonEncode(top));
+      await _widgetChannel.invokeMethod('updateWidget');
+    } catch (_) {
+      // Widget update is best-effort
     }
   }
 
