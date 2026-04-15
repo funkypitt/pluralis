@@ -1,5 +1,6 @@
 # Misc
 *.pdf
+*.jpg
 .metadata
 
 # Flutter/Dart
