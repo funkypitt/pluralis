@@ -1,0 +1,28 @@
+[en]
+E-ink friendly RSS / Atom reader for Android.
+
+Pluralis is a lightweight, local-first RSS / Atom feed reader with a paginated reading mode tuned for e-ink displays. Subscribe to any RSS or Atom feed and read articles in a serif-typeset, paginated view with adaptive font sizing and tap zones for page turns. No accounts, no tracking, no server — every byte stays on your device.
+
+Bookmarks are auto-cleaned after 90 days. OPML import and export means your subscriptions move with you. Paid Substack content works via cookie authentication, with CSV import / export to manage cookies across feeds.
+
+- Paginated e-ink reading mode (Merriweather, tap zones, adaptive sizing)
+- RSS and Atom subscriptions, chronological with source spreading
+- Bookmarks (auto-cleaned after 90 days)
+- OPML import and export
+- Substack support via cookie authentication, CSV import / export
+- Fully local; no accounts, no tracking
+
+---
+[fr]
+Lecteur RSS / Atom pour Android, pensé pour l'e-ink.
+
+Pluralis est un lecteur RSS / Atom léger et local, doté d'un mode lecture paginé conçu pour les écrans e-ink. Abonnez-vous à n'importe quel flux RSS ou Atom et lisez les articles en pagination avec une typographie serif, une taille de police adaptative et des zones tactiles pour tourner les pages. Aucun compte, aucun pistage, aucun serveur — toutes les données restent sur l'appareil.
+
+Les marque-pages se nettoient automatiquement après 90 jours. L'import / export OPML permet d'emporter ses abonnements ailleurs. Les Substack payants fonctionnent via une authentification par cookies, avec import / export CSV pour gérer les cookies de plusieurs flux.
+
+- Mode lecture e-ink paginé (Merriweather, zones tactiles, taille adaptative)
+- Abonnements RSS et Atom, ordre chronologique avec étalement des sources
+- Marque-pages (nettoyés automatiquement après 90 jours)
+- Import / export OPML
+- Substack via authentification par cookies, import / export CSV
+- 100 % local ; aucun compte, aucun pistage
