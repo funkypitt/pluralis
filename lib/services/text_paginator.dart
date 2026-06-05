@@ -13,13 +13,15 @@ class TextPaginator {
     required TextStyle style,
   }) {
     if (text.trim().isEmpty) return [''];
+    if (width <= 0 || pageHeight <= 0) return [text];
 
     final pages = <String>[];
     var remaining = text;
     var isFirstPage = true;
 
     while (remaining.isNotEmpty) {
-      final height = isFirstPage ? firstPageHeight : pageHeight;
+      var height = isFirstPage ? firstPageHeight : pageHeight;
+      if (height <= 0) height = pageHeight;
       isFirstPage = false;
 
       final tp = TextPainter(

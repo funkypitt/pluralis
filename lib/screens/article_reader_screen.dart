@@ -29,6 +29,7 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
   double _lastFontSize = 0;
   double _measuredHeight = 0;
   double _measuredWidth = 0;
+  bool _repaginateScheduled = false;
 
   @override
   void initState() {
@@ -70,6 +71,15 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
 
     _extracted = extracted;
     setState(() => _isLoading = false);
+  }
+
+  void _scheduleRepaginate() {
+    if (_repaginateScheduled) return;
+    _repaginateScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _repaginateScheduled = false;
+      _repaginate();
+    });
   }
 
   void _repaginate() {
@@ -115,9 +125,17 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
       style: style,
     );
 
+    // Preserve reading position as a fraction of total pages
+    final progress = _pages.isNotEmpty
+        ? _currentPage / _pages.length
+        : 0.0;
+    final newPage = pages.length > 1
+        ? (progress * pages.length).round().clamp(0, pages.length - 1)
+        : 0;
+
     setState(() {
       _pages = pages;
-      _currentPage = 0;
+      _currentPage = newPage;
       _lastFontSize = settings.fontSize;
     });
   }
@@ -140,7 +158,7 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
 
     // Re-paginate if font size changed
     if (_extracted != null && settings.fontSize != _lastFontSize && _measuredHeight > 0) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _repaginate());
+      _scheduleRepaginate();
     }
 
     return Scaffold(
@@ -239,17 +257,16 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
             Expanded(
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  final heightChanged =
+                  final sizeChanged =
                       constraints.maxHeight != _measuredHeight ||
                       constraints.maxWidth != _measuredWidth;
-                  if (heightChanged) {
+                  if (sizeChanged) {
                     _measuredHeight = constraints.maxHeight;
                     _measuredWidth = constraints.maxWidth;
                   }
-                  // Repaginate whenever we have content but no pages
-                  if (_extracted != null && _pages.isEmpty && _measuredHeight > 0) {
-                    WidgetsBinding.instance
-                        .addPostFrameCallback((_) => _repaginate());
+                  if (_extracted != null && _measuredHeight > 0 &&
+                      (sizeChanged || _pages.isEmpty)) {
+                    _scheduleRepaginate();
                   }
                   return Padding(
                     padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
@@ -300,7 +317,9 @@ class _ArticleReaderScreenState extends State<ArticleReaderScreen> {
                         : Colors.transparent,
                   ),
                   Text(
-                    '${_currentPage + 1} / ${_pages.length}',
+                    _pages.isNotEmpty
+                        ? '${_currentPage + 1} / ${_pages.length}'
+                        : '',
                     style: TextStyle(
                       fontSize: settings.fontSize - 4,
                       color: Colors.black54,
