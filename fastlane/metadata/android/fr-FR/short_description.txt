@@ -1,0 +1,1 @@
+Lecteur RSS/Atom pour écrans e-ink, avec un mode de lecture paginé

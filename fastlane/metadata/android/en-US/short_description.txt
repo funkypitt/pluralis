@@ -1,0 +1,1 @@
+E-ink friendly RSS/Atom reader with a paginated reading mode

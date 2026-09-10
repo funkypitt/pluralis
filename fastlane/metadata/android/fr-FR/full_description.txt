@@ -1,0 +1,11 @@
+Pluralis est un lecteur RSS/Atom léger et entièrement local pour Android, avec un mode de lecture paginé conçu pour les écrans e-ink.
+
+Fonctionnalités :
+- Mode de lecture e-ink : articles paginés, taille de police adaptative, typographie serif, zones de toucher pour tourner les pages et mise en page à fort contraste
+- Agrégateur RSS/Atom : abonnez-vous à n'importe quel flux, trié chronologiquement en alternant les sources
+- Signets : gardez des articles pour plus tard, nettoyés automatiquement après 90 jours
+- Import/export OPML de vos abonnements
+- Substack : contenus payants via l'authentification par cookies, import/export CSV
+- Entièrement local : pas de compte, pas de suivi, pas de serveur ; toutes les données restent sur votre appareil
+
+Pierre Gallaz · développé avec Claude Code

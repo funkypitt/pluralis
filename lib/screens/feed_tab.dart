@@ -77,6 +77,13 @@ class FeedTab extends StatelessWidget {
                     const Text(
                       'E-ink friendly RSS reader\nAdd feeds via URL or OPML import',
                     ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: Text(
+                        'Pierre Gallaz · developed with Claude Code\n'
+                        'Pierre Gallaz · développé avec Claude Code',
+                      ),
+                    ),
                   ],
                 );
               }

@@ -40,3 +40,11 @@ flutter build apk --release
 ## License
 
 [GPL-3.0](LICENSE)
+
+## Crédits / Credits
+
+© 2026 Pierre Gallaz. Développé avec [Claude Code](https://claude.com/claude-code) (Anthropic).
+Licence GPL-3.0, voir `LICENSE`.
+
+© 2026 Pierre Gallaz. Developed with [Claude Code](https://claude.com/claude-code) (Anthropic).
+GPL-3.0 licence, see `LICENSE`.
